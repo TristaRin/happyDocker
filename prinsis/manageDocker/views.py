@@ -24,7 +24,7 @@ def manage(request) :
         for each_image_dict in images_list:
             if image in each_image_dict['RepoTags']:
                 check_images = True
-        if check_images:
+        if check_images == False:
             os.system('docker pull '+image)
 
         build_cmd = "curl --unix-socket /var/run/docker.sock -H"+' "Content-Type: application/json"'+" -d '{"+'"Image"'+':"'+image+'",'+' "Cmd":"'+ command+'"'+"}' -X POST http:/v1.24/containers/create"
