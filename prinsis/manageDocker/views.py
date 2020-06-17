@@ -27,7 +27,7 @@ def manage(request) :
         images_json = subprocess.Popen('curl --unix-socket /var/run/docker.sock http:/v1.24/images/json').stdout
         images_list = json.loads(images_json.strip())
         for each_image_dict in images_list:
-            if image in each_image_dict.['RepoTags']:
+            if image in each_image_dict['RepoTags']:
                 check_images = True
         if check_images:
             os.system('docker pull '+image)
