@@ -12,7 +12,6 @@ def manage(request) :
         command = request.POST['command']
         name = request.POST['name']
 
-
         # modelsStr  = request.POST['路徑模式'].split(',')
         # n = int(request.POST['初代數量'])
         # goodDNA, stepList, qualityList, spendTime = ga.myGA(unitsStr, modelsStr, n, growthCap, iterationsNum, lowerLimit, mutCap)
@@ -23,6 +22,7 @@ def manage(request) :
 
         ctx['id'] = 'ididid'
         ctx['status'] = 'stststst'
+        
 
 
         # ctx['lowerLimit'] = lowerLimit
