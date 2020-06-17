@@ -2,12 +2,14 @@ from django.shortcuts import render
 import os
 import json
 import subprocess
+tmp_ctx = {}
 def hello_world(request):
     response = render(request, 'hello_world.html',{})
     return response
 # Create your views here.
 
 def manage(request) :
+    global tmp_ctx
     ctx ={}
     if request.POST:
         # 拿到計算所需的參數
@@ -15,7 +17,6 @@ def manage(request) :
         command = request.POST['command']
         # name = request.POST['name']
        
-
         check_images = False
 
         images_json = os.popen('curl --unix-socket /var/run/docker.sock http:/v1.24/images/json').readlines()[0]
@@ -24,19 +25,19 @@ def manage(request) :
         for each_image_dict in images_list:
             if image in each_image_dict['RepoTags']:
                 check_images = True
+                break
         if check_images == False:
             os.system('docker pull '+image)
 
-        build_cmd = "curl --unix-socket /var/run/docker.sock -H"+' "Content-Type: application/json"'+" -d '{"+'"Image"'+':"'+image+'",'+' "Cmd":"'+ command+'"'+"}' -X POST http:/v1.24/containers/create"
-        
+        # build_cmd = "curl --unix-socket /var/run/docker.sock -H"+' "Content-Type: application/json"'+" -d '{"+'"Image"'+':"'+image+'",'+' "Cmd":"'+ command+'"'+"}' -X POST http:/v1.24/containers/create"
+        print(command)
+        build_cmd = "docker run -idt "+ image+ " "+ command
         tmp = os.popen(build_cmd).readlines()[0]
-        tmp_deal = eval(tmp.strip())
-        tmp_dict = {}
-        tmp_dict = tmp_deal
-        print(tmp_dict)
+        tmp_deal = tmp.strip()
+        
         
         try:
-            id_cmd = tmp_dict['Id'][0:12]
+            id_cmd = tmp_deal[0:12]
             search = os.popen('docker ps -a | grep "'+ id_cmd +'"').readlines()[0]
 
             search_name = search.split()[-1]
@@ -45,25 +46,42 @@ def manage(request) :
             ctx['command'] = command
             ctx['name'] = search_name
 
-            ctx['id'] = tmp_dict['Id'][0:12]
+            ctx['id'] = id_cmd
             ctx['status'] = 'Success'
+            tmp_ctx = ctx
         except:
+            
             ctx['image'] = image
             ctx['command'] = command
             ctx['name'] = ''
 
             ctx['id'] = ''
             ctx['status'] = 'Fail'
- 
 
-
-
-        # ctx['lowerLimit'] = lowerLimit
-
-        # ctx['goodStep'] = min(stepList)
-        # ctx['goodQuality'] = max(qualityList)
-        # stepList = map(str, stepList)
-        # ctx['qualityList'] = str(','.join(qualityList))
-
-    # Repeat a few rounds
     return render(request, "manage.html", ctx)
+
+def react(request) :
+    ctx = {}
+    if request.POST:
+        # 拿到計算所需的參數
+        command = request.POST['command']
+        tmp_for_all = os.popen('docker ps -a').readlines()
+        # name = request.POST['name']
+        name = ((os.popen('docker ps -l').readlines()[1].strip()).split())[-1]
+        idNow = ((os.popen('docker ps -l').readlines()[1].strip()).split())[0]
+        # os.system('docker start -i '+ tmp_ctx['name'])
+        cmd = 'docker exec -i '+name+' '+command
+        try:
+            tmp = os.popen(cmd).readlines()
+            ctx['id'] = idNow
+            ctx['name'] = name
+            ctx['statusCMD'] = 'Success'
+            ctx['output'] = ''.join(tmp)
+            ctx['allContainer'] = ''.join(tmp_for_all)
+        except:
+            ctx['status'] = 'Fail'
+            ctx['output'] = 'No output'
+            ctx['allContainer'] = '\n'+''.join(tmp_for_all)
+        print(ctx)
+
+    return render(request, "reaction.html",ctx)

@@ -5,4 +5,5 @@ from django.conf.urls import url
 urlpatterns = [
     path('hello_world',views.hello_world), 
     url('manage', views.manage),
+    url('reaction', views.react),
 ]
