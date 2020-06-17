@@ -37,7 +37,7 @@ def manage(request) :
         
         try:
             id_cmd = tmp_dict['Id'][0:12]
-            search = 'docker ps -a | grep "'+ id_cmd +'"'
+            search = os.popen('docker ps -a | grep "'+ id_cmd +'"').readlines()[0]
 
             search_name = search.split()[-1]
         
