@@ -13,7 +13,7 @@ def manage(request) :
         # 拿到計算所需的參數
         image = request.POST['image']
         command = request.POST['command']
-        name = request.POST['name']
+        # name = request.POST['name']
        
 
         check_images = False
