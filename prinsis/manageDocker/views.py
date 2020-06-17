@@ -14,12 +14,6 @@ def manage(request) :
         image = request.POST['image']
         command = request.POST['command']
         name = request.POST['name']
-<<<<<<< HEAD
-
-        # modelsStr  = request.POST['路徑模式'].split(',')
-        # n = int(request.POST['初代數量'])
-        # goodDNA, stepList, qualityList, spendTime = ga.myGA(unitsStr, modelsStr, n, growthCap, iterationsNum, lowerLimit, mutCap)
-=======
        
 
         check_images = False
@@ -41,24 +35,27 @@ def manage(request) :
         tmp_dict = tmp_deal
         print(tmp_dict)
         
-        id_cmd = tmp_dict['Id'][0:12]
-        search = 'docker ps -a | grep "'+ id_cmd +'"'
+        try:
+            id_cmd = tmp_dict['Id'][0:12]
+            search = 'docker ps -a | grep "'+ id_cmd +'"'
 
-        search_name = search.split()[-1]
->>>>>>> 968101b9b8524d912a1f574a907b23a2dece71bf
-
-        ctx['image'] = image
-        ctx['command'] = command
-        ctx['name'] = name
-
-<<<<<<< HEAD
-        ctx['id'] = 'ididid'
-        ctx['status'] = 'stststst'
+            search_name = search.split()[-1]
         
-=======
-        ctx['id'] = tmp_dict['Id'][0:12]
-        ctx['status'] = search_name
->>>>>>> 968101b9b8524d912a1f574a907b23a2dece71bf
+            ctx['image'] = image
+            ctx['command'] = command
+            ctx['name'] = search_name
+
+            ctx['id'] = tmp_dict['Id'][0:12]
+            ctx['status'] = 'Success'
+        except:
+            ctx['image'] = image
+            ctx['command'] = command
+            ctx['name'] = ''
+
+            ctx['id'] = ''
+            ctx['status'] = 'Fail'
+ 
+
 
 
         # ctx['lowerLimit'] = lowerLimit
