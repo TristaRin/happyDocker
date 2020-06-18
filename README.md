@@ -65,10 +65,10 @@ pip3 install django==3.0.3
 ```
 cd prinsis/
 python manage.py migrate
-python manage.py runserver 163.22.17.137:8000
+python manage.py runserver ip:port
 ```
 6. use it
-http://163.22.17.137:8000/manageDocker/manage
+http://ip:port/manageDocker/manage
 
 
 ## How to build your own project
