@@ -1,14 +1,24 @@
 # happyDocker
-I'm Docker, and I'm happy!
+`I'm Docker, and I'm happy!`
 
-## Feature
-1. 
+## Project
+- 主頁面: 針對需求輸入 `image` 和 `command`
+![](https://i.imgur.com/riCVT8U.png)
+
+- 建立成功顯示 Container 資訊
+![](https://i.imgur.com/3jmV60w.png)
+
+- 點選 `Runnnn it !` 跳轉頁面並輸入欲執行的指令
+	- 點選 `Add another Container!` 可跳轉回建立頁面 
+![](https://i.imgur.com/nkQb9gp.png)
+
 
 ## Package  Used
 1. python3 3.6.9
 2. pipenv
 3. django 3.0.3
 4. Docker
+5. curl
 
 ## Getting start with your own server
 1. Enter remote server
@@ -27,11 +37,12 @@ pip3 install pipenv
 git clone https://github.com/TristaRin/happyDocker.git
 ```
 
-4. in your project folder, and enter the virtual environment
+4. in your project folder, and enter the virtual environment. install django
 
 ```
 cd happyDocker/
 python3 -m pipenv shell
+pip3 install django==3.0.3
 ```
 
 5. runserver
@@ -47,7 +58,7 @@ http://163.22.17.137:8000/manageDocker/manage
 ## How to build your own project
 ### Django
 
-1. 遠端佈署+本地端佈署(遠端本地都要做一遍)
+1. localhost 佈署
 
     請先確認 python3 版本3.6.9
     然後安裝一些管理套件
@@ -84,40 +95,18 @@ http://163.22.17.137:8000/manageDocker/manage
     vim settings.py
     ```
     ```python=
-    DEBUG = False
     ALLOWED_HOSTS = ['163.22.17.137', 'localhost', '127.0.0.1']
     ```
-
-3. 把本地專案移到遠端伺服器上
-    （要先 cd 到放 happyDocker 的目錄底下）
-    ```
-    scp -r happyDocker/ s018@163.22.17.137:/home/s018/
-    ```
-
-4. 可以看小火箭了 
-    先進到遠端
-    ```
-    ssh s018＠163.22.17.137
-    cd happyDocker/prinsis/
-    ```
-    在遠端跑的指令長這樣～
-    ```
-    python manage.py runserver 163.22.17.137:8000
-    ```
-
-    請確認你是在虛擬環境中，若不再環境中runserver會以下錯誤
-    ![](https://i.imgur.com/pZZGGcq.png)
-    正常情況
-    ![](https://i.imgur.com/m5AvyHR.png)
     
-    ![](https://i.imgur.com/bFqtIYa.png)
-    （補充）
-    在本地跑的指令長這樣～
+3. localhost 可以看小火箭了 
     ```
     cd ..
     python manage.py runserver
     ```
-5. 終於可以來新增一個 app 了～（咱們先在本地端做）
+    （注意）請確認你是在虛擬環境中，若不再虛擬環境中runserver會錯誤
+   
+    
+4. 終於可以來新增一個 app 了～
     在 /happyDocker/prinsis 底下建一個 app 叫 manageDocker
     ```
     python manage.py startapp manageDocker
@@ -131,7 +120,7 @@ http://163.22.17.137:8000/manageDocker/manage
     ```python=
      INSTALLED_APPS = [
          ...
-         'manageDocker',                                                         
+         'manageDocker',               
      ]
      
      ```
@@ -336,9 +325,6 @@ http://163.22.17.137:8000/manageDocker/manage
 
     </body>
     </html>
-
-
-    
     ```
     (補充)
     django 規定在 form 後面加要 token
@@ -346,95 +332,6 @@ http://163.22.17.137:8000/manageDocker/manage
     {% csrf_token %}
     ```
     
-    3. 修改/happyDocker/prinsis/manageDocker/ 底下的 views.py
-    ```
-    cd ..
-    cd manageDocker/
-    vim views.py
-    ```
-```python=
-from django.shortcuts import render
-import os
-import json
-import subprocess
-def hello_world(request):
-    response = render(request, 'hello_world.html',{})
-    return response
-# Create your views here.
-
-def manage(request) :
-    ctx ={}
-    if request.POST:
-        # 拿到計算所需的參數
-        image = request.POST['image']
-        command = request.POST['command']
-        # name = request.POST['name']
-       
-
-        check_images = False
-
-        images_json = os.popen('curl --unix-socket /var/run/docker.sock http:/v1.24/images/json').readlines()[0]
-
-        images_list = json.loads(images_json.strip())
-        for each_image_dict in images_list:
-            if image in each_image_dict['RepoTags']:
-                check_images = True
-        if check_images == False:
-            os.system('docker pull '+image)
-
-        build_cmd = "curl --unix-socket /var/run/docker.sock -H"+' "Content-Type: application/json"'+" -d '{"+'"Image"'+':"'+image+'",'+' "Cmd":"'+ command+'"'+"}' -X POST http:/v1.24/containers/create"
-        
-        tmp = os.popen(build_cmd).readlines()[0]
-        tmp_deal = eval(tmp.strip())
-        tmp_dict = {}
-        tmp_dict = tmp_deal
-        print(tmp_dict)
-        
-        try:
-            id_cmd = tmp_dict['Id'][0:12]
-            search = os.popen('docker ps -a | grep "'+ id_cmd +'"').readlines()[0]
-
-            search_name = search.split()[-1]
-        
-            ctx['image'] = image
-            ctx['command'] = command
-            ctx['name'] = search_name
-
-            ctx['id'] = tmp_dict['Id'][0:12]
-            ctx['status'] = 'Success'
-        except:
-            ctx['image'] = image
-            ctx['command'] = command
-            ctx['name'] = ''
-
-            ctx['id'] = ''
-            ctx['status'] = 'Fail'
- 
-
-
-
-        # ctx['lowerLimit'] = lowerLimit
-
-        # ctx['goodStep'] = min(stepList)
-        # ctx['goodQuality'] = max(qualityList)
-        # stepList = map(str, stepList)
-        # ctx['qualityList'] = str(','.join(qualityList))
-
-    # Repeat a few rounds
-    return render(request, "manage.html", ctx)
-
-```
-
-看成果(在 runserver的前提下)
-http://127.0.0.1:8000/manageDocker/hello_world
-    
-http://<server_wan_ip>:8000/manageDocker/hello_world 
-
-    
-    
-    
-
-
 ### Docker
 - 在 server 上架 Docker engine
 [docker 安裝參考](https://docs.docker.com/engine/install/ubuntu/)
@@ -463,7 +360,6 @@ sudo add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
    $(lsb_release -cs) \
    stable"
-
 ```
 
 ![](https://i.imgur.com/TmSrtJh.png)
@@ -498,10 +394,129 @@ Got permission denied while trying to connect to the Docker daemon socket at uni
 - logout
 :::
 
+### 後端處理 views.py
+1. 將前端資料 POST 到後端
+```python=
+if request.POST:
+        # 拿到計算所需的參數
+		# POST 的 key 為 tag 中的 name
+        image = request.POST['image']
+        command = request.POST['command']
+    
+```
+2. 確認 image 是否已存在
 
+Docker 相關指令：
+- （CMD 指令）使用 `curl` 以及 `docker.sock` socket檔抓取 image 的 json 資料
+```shell
+curl --unix-socket /var/run/docker.sock http:/v1.24/images/json
+```
+- pull image 
+	- 須為存在在 [dockerhub](https://hub.docker.com/search/?type=image) 上的 image
+```shell
+docker pull <image_name>
+```
+- 快速刪除存在 `<none>` 的特定 image
+```shell
+docker images -f "dangling=true" -q
+```
+使用 python 執行 command line 指令：
+```python=
+os.system(<command>) # 執行指令
+os.popen(<command>).readlines() # 每行讀取 CMD 的 stdout
+```
+處理 `json` 檔：
 
+```python=
+import json
+<list> = json.loads(<data>)
+```
 
+實際實做範例：
+```python=
+check_images = False
+
+        images_json = os.popen('curl --unix-socket /var/run/docker.sock http:/v1.24/images/json').readlines()[0]
+
+        images_list = json.loads(images_json.strip())
+        try:
+			# list 中為 dictionary
+            for each_image_dict in images_list:
+				# RepoTags 為紀錄 image 的 key
+                if image in each_image_dict['RepoTags']:
+                    check_images = True
+                    break
+        except TypeError:
+            # 處理 <none> 問題
+            os.system('docker images -f "dangling=true" -q')
+            for each_image_dict in images_list:
+                if image in each_image_dict['RepoTags']:
+                    check_images = True
+                    break
+        
+        if check_images == False:
+            os.system('docker pull '+image)
+
+```
+3. 依據 POST 回來的資訊 build Container
+此專案將建立的 Container 放背景執行
+**不建議使用 `-idt`**
+(CMD) 建立 Container
+```shell
+docker run -idt <image> <command> 
+```
+實際範例並抓取回傳的 `Container id`：
+```python=
+build_cmd = "docker run -idt "+ image+ " "+ command
+        tmp = os.popen(build_cmd).readlines()[0]
+        tmp_deal = tmp.strip()
+        
+```
+
+4. 抓取 Container name
+(CMD)抓取 Container name 使用：
+```shell
+docker ps -a | grep "<Container_id>"
+```
+實際範例程式：
+```python=
+# 抓取 11 位 id
+id_cmd = tmp_deal[0:12]
+# 讀取回傳資料後最後一項為 Container name
+search = os.popen('docker ps -a | grep "'+ id_cmd +'"').readlines()[0]
+search_name = search.split()[-1]
+```
+5. 將 Container 資料使用 render 渲染回網頁
+```python=
+try:        
+	ctx['image'] = image
+	ctx['command'] = command
+	ctx['name'] = search_name
+
+	ctx['id'] = id_cmd
+	ctx['status'] = 'Success'
+    
+except:
+            
+    ctx['image'] = image
+    ctx['command'] = command
+    ctx['name'] = ''
+
+    ctx['id'] = ''
+    ctx['status'] = 'Fail'
+
+return render(request, "manage.html", ctx)
+
+```
+### Deploy 
+1. 將以上專案 push 到 github 上 
+2. 在遵循 Getting start with your own server 的步驟即可
 
 ## 特別感謝
+:smile: BlueT, 守恩, 果子維, 王威, 逸于, 丁丁, 許家瑋
 
 ## future
+- 增加 停止/執行 特定 Container 的功能
+- Container 建立時的參數增加
+- 能夠定時清理使用不到的 Container
+- 可以更改 Container 名字
