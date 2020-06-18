@@ -1,5 +1,19 @@
 # happyDocker
 `I'm Docker, and I'm happy!`
+## Table of Content
+
+* [About the Project](#project)
+* [Built With](#Package-Used)
+* [Getting Started](#getting-start-with-your-own-server)
+* [Prerequisites](#how-to-build-your0own-project)
+  	* [Installation](#django)
+	* [Installation](#docker)
+	* [Installation](#後端處理-views.py)
+	* [Installation](#deploy)
+* [Installation](#)
+* [Installation](#特別感謝)
+* [Installation](#future)
+* [Usage](#reference)
 
 ## Project
 - 主頁面: 針對需求輸入 `image` 和 `command`
@@ -509,8 +523,14 @@ return render(request, "manage.html", ctx)
 
 ```
 ### Deploy 
+
 1. 將以上專案 push 到 github 上 
 2. 在遵循 Getting start with your own server 的步驟即可
+
+## 工作分工
+
+小公主：Django 架設，manage.html 前端，Server 申請
+姊姊：Docker 建立，views.py (後端)， reaction.html 前後端
 
 ## 特別感謝
 :smile: BlueT, 守恩, 果子維, 王威, 逸于, 丁丁, 許家瑋
