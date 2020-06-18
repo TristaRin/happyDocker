@@ -1,5 +1,7 @@
 # happyDocker
 `I'm Docker, and I'm happy!`
+
+試圖用網頁建立 Container 然後成功ㄌ!
 ## Table of Content
 
 * [About the Project](#project)
@@ -541,4 +543,10 @@ return render(request, "manage.html", ctx)
 - 能夠定時清理使用不到的 Container
 - 可以更改 Container 名字
 ## Reference
-https://hackmd.io/-ehuRZZeQRiM8-q2IT6VYg?view
+- [守恩的筆記](https://hackmd.io/-ehuRZZeQRiM8-q2IT6VYg?view)
+- https://getbootstrap.com/
+- https://docs.docker.com/engine/api/sdk/examples/
+- https://docs.docker.com/engine/install/ubuntu/
+- https://docs.docker.com/engine/reference/commandline/container_prune/
+- https://forums.docker.com/t/how-to-remove-none-images-after-building/7050/2
+- https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/80195/
