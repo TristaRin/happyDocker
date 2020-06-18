@@ -542,6 +542,8 @@ return render(request, "manage.html", ctx)
 - Container 建立時的參數增加
 - 能夠定時清理使用不到的 Container
 - 可以更改 Container 名字
+- ~~LSA不會被當~~
+
 ## Reference
 - [守恩的筆記](https://hackmd.io/-ehuRZZeQRiM8-q2IT6VYg?view)
 - https://getbootstrap.com/
