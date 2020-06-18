@@ -3,17 +3,17 @@
 ## Table of Content
 
 * [About the Project](#project)
-* [Built With](#Package-Used)
-* [Getting Started](#getting-start-with-your-own-server)
+* [Package Used](#package-used)
+* [Getting start with your own server](#getting-start-with-your-own-server)
 * [Prerequisites](#how-to-build-your0own-project)
-  	* [Installation](#django)
-	* [Installation](#docker)
-	* [Installation](#後端處理-views.py)
-	* [Installation](#deploy)
-* [Installation](#)
-* [Installation](#特別感謝)
-* [Installation](#future)
-* [Usage](#reference)
+  	* [Django](#django)
+	* [Docker](#docker)
+	* [後端處理 views.py](#後端處理-views.py)
+	* [Deploy](#deploy)
+* [工作分配](#)
+* [特別感謝](#特別感謝)
+* [未來展望](#future)
+* [Reference](#reference)
 
 ## Project
 - 主頁面: 針對需求輸入 `image` 和 `command`
@@ -527,7 +527,7 @@ return render(request, "manage.html", ctx)
 1. 將以上專案 push 到 github 上 
 2. 在遵循 Getting start with your own server 的步驟即可
 
-## 工作分工
+## 工作分
 
 小公主：Django 架設，manage.html 前端，Server 申請
 姊姊：Docker 建立，views.py (後端)， reaction.html 前後端
