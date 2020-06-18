@@ -396,8 +396,8 @@ sudo add-apt-repository \
 	`$ sudo docker run hello-world`
 	![](https://i.imgur.com/SFlsRNy.png)
 	
-:::danger
-權限問題
+
+- 權限問題
 使每次執行 docker 時不用加 sudo
 ```text=
 Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post http://%2Fvar%2Frun%2Fdocker.sock/v1.40/images/create?fromImage=ubuntu&tag=latest: dial unix /var/run/docker.sock: connect: permission denied
@@ -408,7 +408,7 @@ Got permission denied while trying to connect to the Docker daemon socket at uni
 - Add your user to the docker group.
 `sudo usermod -aG docker ${USER}`
 - logout
-:::
+
 
 ### 後端處理 views.py
 1. 將前端資料 POST 到後端
