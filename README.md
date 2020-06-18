@@ -57,12 +57,12 @@ http://163.22.17.137:8000/manageDocker/manage
     ```
 
 2. 在本地端建好專案~
-    先建一個資料夾叫 myPrj
+    先建一個資料夾叫 
     對此資料夾創建（或進入）虛擬環境
     再裝個 django
     ```
-    mkdir myPrj 
-    cd myPrj/
+    mkdir happyDocker
+    cd happyDocker/
     python3 -m pipenv shell
     pip3 install django==3.0.3
     ```
@@ -89,21 +89,16 @@ http://163.22.17.137:8000/manageDocker/manage
     ```
 
 3. 把本地專案移到遠端伺服器上
-    （要先 cd 到放 myPrj 的目錄底下）
+    （要先 cd 到放 happyDocker 的目錄底下）
     ```
-    scp -r myPrj/ s018@163.22.17.137:/home/s018/
+    scp -r happyDocker/ s018@163.22.17.137:/home/s018/
     ```
-
-
->  FIXME:
-sudo ufw allow 8000
-sudo ufw deny 8000
 
 4. 可以看小火箭了 
     先進到遠端
     ```
     ssh s018＠163.22.17.137
-    cd myPrj/prinsis/
+    cd happyDocker/prinsis/
     ```
     在遠端跑的指令長這樣～
     ```
@@ -123,11 +118,11 @@ sudo ufw deny 8000
     python manage.py runserver
     ```
 5. 終於可以來新增一個 app 了～（咱們先在本地端做）
-    在 /myPrj/prinsis 底下建一個 app 叫 manageDocker
+    在 /happyDocker/prinsis 底下建一個 app 叫 manageDocker
     ```
     python manage.py startapp manageDocker
     ```
-    修改 /myPrj/prinsis/prinsis 底下的 setting.py
+    修改 /happyDocker/prinsis/prinsis 底下的 setting.py
     ```
     cd prinsis/
     vim setting.py
@@ -140,13 +135,13 @@ sudo ufw deny 8000
      ]
      
      ```
-     在 /myPrj/prinsis 底下建一個資料夾叫 templates
+     在 /happyDocker/prinsis 底下建一個資料夾叫 templates
     ```
     cd ..
     mkdir templates
     
     ```
-    修改 /myPrj/prinsis/prinsis 底下的 setting.py
+    修改 /happyDocker/prinsis/prinsis 底下的 setting.py
 
     ```
     cd prinsis/
@@ -175,7 +170,7 @@ sudo ufw deny 8000
 
     USE_TZ = False
     ```
-    修改 /myPrj/prinsis/prinsis 底下的 urls.py
+    修改 /happyDocker/prinsis/prinsis 底下的 urls.py
     ```
     vim urls.py
     ```
@@ -190,7 +185,7 @@ sudo ufw deny 8000
                     
     ```
 6. 在這 app 裡面寫些 api
-    1. 在 /myPrj/prinsis/manageDocker 底下建一個 urls.py
+    1. 在 /happyDocker/prinsis/manageDocker 底下建一個 urls.py
     ```
     cd ..
     cd manageDocker/
@@ -207,7 +202,7 @@ sudo ufw deny 8000
     ]
     ```
     
-    2. 在 /myPrj/prinsis/templates 底下創一個 hello_world.html 和 manage.html
+    2. 在 /happyDocker/prinsis/templates 底下創一個 hello_world.html 和 manage.html
     ```
     cd ..
     cd templates/
@@ -351,7 +346,7 @@ sudo ufw deny 8000
     {% csrf_token %}
     ```
     
-    3. 修改/myPrj/prinsis/manageDocker/ 底下的 views.py
+    3. 修改/happyDocker/prinsis/manageDocker/ 底下的 views.py
     ```
     cd ..
     cd manageDocker/
