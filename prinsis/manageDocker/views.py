@@ -16,7 +16,9 @@ def manage(request) :
         image = request.POST['image']
         command = request.POST['command']
         # name = request.POST['name']
-        
+        if '&' in command:
+            ctx['status'] = 'Invalid input'
+            return render(request, "manage.html", ctx)
         check_images = False
 
         images_json = os.popen('curl --unix-socket /var/run/docker.sock http:/v1.24/images/json').readlines()[0]
@@ -34,17 +36,22 @@ def manage(request) :
                 if image in each_image_dict['RepoTags']:
                     check_images = True
                     break
-        
+        print(check_images)
         if check_images == False:
             os.system('docker pull '+image)
+        try:
 
-        # build_cmd = "curl --unix-socket /var/run/docker.sock -H"+' "Content-Type: application/json"'+" -d '{"+'"Image"'+':"'+image+'",'+' "Cmd":"'+ command+'"'+"}' -X POST http:/v1.24/containers/create"
-        print(command)
-        build_cmd = "docker run -idt "+ image+ " "+ command
-        tmp = os.popen(build_cmd).readlines()[0]
-        tmp_deal = tmp.strip()
-        
-        
+            build_cmd = "docker run -idt "+ image+ " "+ command
+            tmp = os.popen(build_cmd).readlines()[0]
+            tmp_deal = tmp.strip()
+        except:
+            ctx['image'] = image
+            ctx['command'] = command
+            ctx['name'] = ''
+
+            ctx['id'] = ''
+            ctx['status'] = 'Fail'
+            return render(request, "manage.html", ctx)
         try:
             id_cmd = tmp_deal[0:12]
             search = os.popen('docker ps -a | grep "'+ id_cmd +'"').readlines()[0]
@@ -92,5 +99,31 @@ def react(request) :
             ctx['output'] = 'No output'
             ctx['allContainer'] = '\n'+''.join(tmp_for_all)
         print(ctx)
+    else:
+        print('No Request')
+    return render(request, "reaction.html",ctx)
+def reactionStop(request) :
+    ctx = {}
+    if request.POST:
+        # 拿到計算所需的參數
+        stop = request.POST['stop']
+        
+        tmp = os.popen('docker stop '+ stop).readlines()   
+        tmp_for_all = os.popen('docker ps -a').readlines()
+        
+        if stop == tmp[0].strip():
+            # 成功停止
+            ctx['statusStop'] = 'Success'
+            ctx['id'] = ''
+            ctx['name'] = ''
+            ctx['statusCMD'] = ''
+            ctx['output'] = ''
+            ctx['allContainer'] = ''.join(tmp_for_all)
+        else:
+            ctx['statusStop'] = 'Fail'
+            ctx['status'] = ''
+            ctx['output'] = 'No output'
+            ctx['allContainer'] = '\n'+''.join(tmp_for_all)
+        
 
     return render(request, "reaction.html",ctx)
