@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import os
 import json
-import subprocess
+
 tmp_ctx = {}
 def hello_world(request):
     response = render(request, 'hello_world.html',{})
