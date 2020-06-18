@@ -16,16 +16,25 @@ def manage(request) :
         image = request.POST['image']
         command = request.POST['command']
         # name = request.POST['name']
-       
+        
         check_images = False
 
         images_json = os.popen('curl --unix-socket /var/run/docker.sock http:/v1.24/images/json').readlines()[0]
 
         images_list = json.loads(images_json.strip())
-        for each_image_dict in images_list:
-            if image in each_image_dict['RepoTags']:
-                check_images = True
-                break
+        try:
+            for each_image_dict in images_list:
+                if image in each_image_dict['RepoTags']:
+                    check_images = True
+                    break
+        except TypeError:
+            # 處理 none 字串問題
+            os.system('docker images -f "dangling=true" -q')
+            for each_image_dict in images_list:
+                if image in each_image_dict['RepoTags']:
+                    check_images = True
+                    break
+        
         if check_images == False:
             os.system('docker pull '+image)
 
