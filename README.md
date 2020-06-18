@@ -1,7 +1,16 @@
 # happyDocker
 I'm Docker, and I'm happy!
 
-## Django
+## Feature
+1. 
+
+## Package  Used
+1. python3 3.6.9
+2. pipenv
+3. django 3.0.3
+4. Docker
+
+### Django
 
 1. 遠端佈署+本地端佈署(遠端本地都要做一遍)
 
@@ -396,7 +405,7 @@ http://<server_wan_ip>:8000/manageDocker/hello_world
     
 
 
-## Docker
+### Docker
 - 在 server 上架 Docker engine
 [docker 安裝參考](https://docs.docker.com/engine/install/ubuntu/)
 1. Update the apt package index and install packages to allow apt to use a repository over HTTPS:
@@ -459,3 +468,12 @@ Got permission denied while trying to connect to the Docker daemon socket at uni
 - logout
 :::
 
+## Getting start with your own server
+
+## How to build your own project
+### Django
+### Docker
+
+## 特別感謝
+
+## future
