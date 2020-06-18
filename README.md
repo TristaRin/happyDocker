@@ -10,6 +10,41 @@ I'm Docker, and I'm happy!
 3. django 3.0.3
 4. Docker
 
+## Getting start with your own server
+1. Enter remote server
+```
+ssh 帳號＠遠端ip
+```
+
+2. prepare all packages
+```
+sudo apt install python3-pip
+pip3 install pipenv
+```
+
+3. clone project
+```
+git clone https://github.com/TristaRin/happyDocker.git
+```
+
+4. in your project folder, and enter the virtual environment
+
+```
+cd happyDocker/
+python3 -m pipenv shell
+```
+
+5. runserver
+```
+cd prinsis/
+python manage.py migrate
+python manage.py runserver 163.22.17.137:8000
+```
+6. use it
+http://163.22.17.137:8000/manageDocker/manage
+
+
+## How to build your own project
 ### Django
 
 1. 遠端佈署+本地端佈署(遠端本地都要做一遍)
@@ -468,11 +503,9 @@ Got permission denied while trying to connect to the Docker daemon socket at uni
 - logout
 :::
 
-## Getting start with your own server
 
-## How to build your own project
-### Django
-### Docker
+
+
 
 ## 特別感謝
 
