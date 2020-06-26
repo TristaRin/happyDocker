@@ -566,6 +566,7 @@ return render(request, "manage.html", ctx)
 - Container 建立時的參數增加
 - 能夠定時清理使用不到的 Container
 - 可以更改 Container 名字
+- port 
 - ~~LSA不會被當~~
 
 ## Reference
@@ -576,3 +577,4 @@ return render(request, "manage.html", ctx)
 - https://docs.docker.com/engine/reference/commandline/container_prune/
 - https://forums.docker.com/t/how-to-remove-none-images-after-building/7050/2
 - https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/80195/
+- https://pypi.org/project/shellescape/
