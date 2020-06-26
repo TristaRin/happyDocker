@@ -2,6 +2,7 @@
 `I'm Docker, and I'm happy!`
 
 試圖用網頁建立 Container 然後成功ㄌ!
+
 ## Table of Content
 
 * [About the Project](#project)
@@ -36,6 +37,16 @@
 	![](https://i.imgur.com/louSyhi.png)
 	- 停止成功！
 	![](https://i.imgur.com/ggPqJIJ.png)
+
+## Feature
+- Run a Container through web
+	- show information of the container you've just build sucessfully
+	- pull image (`Dockerhub`) if the image haven't pulled 
+	- shell escape for some unsecure string
+- execute some instruction in Container
+	- shell escape 
+- Stop specific container by name of the container
+	- shell escape 
 ## Package Used
 1. python3 3.6.9
 	- shellescape
