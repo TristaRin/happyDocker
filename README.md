@@ -39,7 +39,7 @@
 ## Package Used
 1. python3 3.6.9
 	- shellescape
-2. pipenv
+	-  pipenv
 3. django 3.0.3
 4. Docker
 5. curl
