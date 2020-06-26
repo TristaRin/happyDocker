@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from shellescape import quote
 import os
 import json
 
@@ -38,10 +39,11 @@ def manage(request) :
                     break
         print(check_images)
         if check_images == False:
-            os.system('docker pull '+image)
+            # quote : shellescape
+            os.system('docker pull '+quote(image))
         try:
 
-            build_cmd = "docker run -idt "+ image+ " "+ command
+            build_cmd = "docker run -idt "+ quote(image) + " "+ quote(command)
             tmp = os.popen(build_cmd).readlines()[0]
             tmp_deal = tmp.strip()
         except:
@@ -83,10 +85,11 @@ def react(request) :
         command = request.POST['command']
         tmp_for_all = os.popen('docker ps -a').readlines()
         # name = request.POST['name']
+        # 抓最新的執行
         name = ((os.popen('docker ps -l').readlines()[1].strip()).split())[-1]
         idNow = ((os.popen('docker ps -l').readlines()[1].strip()).split())[0]
         # os.system('docker start -i '+ tmp_ctx['name'])
-        cmd = 'docker exec -i '+name+' '+command
+        cmd = 'docker exec -i '+ name +' '+ quote(command)
         try:
             tmp = os.popen(cmd).readlines()
             ctx['id'] = idNow
@@ -108,22 +111,34 @@ def reactionStop(request) :
         # 拿到計算所需的參數
         stop = request.POST['stop']
         
-        tmp = os.popen('docker stop '+ stop).readlines()   
+        tmp = os.popen('docker stop '+ quote(stop)).readlines()   
         tmp_for_all = os.popen('docker ps -a').readlines()
-        
-        if stop == tmp[0].strip():
+        try:
+            if stop == tmp[0].strip():
             # 成功停止
-            ctx['statusStop'] = 'Success'
-            ctx['id'] = ''
-            ctx['name'] = ''
-            ctx['statusCMD'] = ''
-            ctx['output'] = ''
-            ctx['allContainer'] = ''.join(tmp_for_all)
-        else:
+                ctx['statusStop'] = 'Success'
+                ctx['id'] = ''
+                ctx['name'] = ''
+                ctx['statusCMD'] = ''
+                ctx['output'] = ''
+                ctx['allContainer'] = ''.join(tmp_for_all)
+            else:
+                ctx['statusStop'] = 'Fail'
+                ctx['status'] = ''
+                ctx['output'] = 'No output'
+                ctx['allContainer'] = '\n'+''.join(tmp_for_all)
+        except:
             ctx['statusStop'] = 'Fail'
             ctx['status'] = ''
             ctx['output'] = 'No output'
             ctx['allContainer'] = '\n'+''.join(tmp_for_all)
-        
 
+    return render(request, "reaction.html",ctx)
+
+def prune(request):
+    ctx = {}
+    os.system('docker container prune')
+    os.system('y')
+    tmp_for_all = os.popen('docker ps -a').readlines()
+    ctx['allContainer'] = '\n'+''.join(tmp_for_all)
     return render(request, "reaction.html",ctx)

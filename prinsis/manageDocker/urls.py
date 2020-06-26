@@ -7,4 +7,5 @@ urlpatterns = [
     url('manage', views.manage),
     url('reactionStop', views.reactionStop),
     url('reaction', views.react),
+    url('prune', views.prune),
 ]
