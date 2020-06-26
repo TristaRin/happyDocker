@@ -7,12 +7,12 @@
 * [About the Project](#project)
 * [Package Used](#package-used)
 * [Getting start with your own server](#getting-start-with-your-own-server)
-* [Prerequisites](#how-to-build-your0own-project)
+* [Prerequisites](#how-to-build-your-own-project)
   	* [Django](#django)
 	* [Docker](#docker)
-	* [後端處理 views.py](#後端處理-views.py)
+	* [後端處理 views.py](#後端處理)
 	* [Deploy](#deploy)
-* [工作分配](#)
+* [工作分配](#工作分配)
 * [特別感謝](#特別感謝)
 * [未來展望](#future)
 * [Reference](#reference)
@@ -28,9 +28,17 @@
 	- 點選 `Add another Container!` 可跳轉回建立頁面 
 ![](https://i.imgur.com/nkQb9gp.png)
 
+- `shell escape` 保護
+![](https://i.imgur.com/wu05fvj.png)
 
-## Package  Used
+- `Stop` Container 
+	- EX: 輸入欲停止的 Container name
+	![](https://i.imgur.com/louSyhi.png)
+	- 停止成功！
+	![](https://i.imgur.com/ggPqJIJ.png)
+## Package Used
 1. python3 3.6.9
+	- shellescape
 2. pipenv
 3. django 3.0.3
 4. Docker
@@ -410,7 +418,11 @@ Got permission denied while trying to connect to the Docker daemon socket at uni
 - logout
 
 
-### 後端處理 views.py
+### 後端處理
+```shell=
+cd prinsis/manageDocker/
+vim view.py
+```
 1. 將前端資料 POST 到後端
 ```python=
 if request.POST:
@@ -529,10 +541,10 @@ return render(request, "manage.html", ctx)
 1. 將以上專案 push 到 github 上 
 2. 在遵循 Getting start with your own server 的步驟即可
 
-## 工作分
+## 工作分配
 
-小公主：Django 架設，manage.html 前端，Server 申請
-姊姊：Docker 建立，views.py (後端)， reaction.html 前後端
+- 小公主：Django 架設，manage.html 前端，Server 申請 
+- 姊姊：Docker 建立，views.py (後端)， reaction.html 前後端
 
 ## 特別感謝
 :smile: BlueT, 守恩, 果子維, 王威, 逸于, 丁丁, 許家瑋
