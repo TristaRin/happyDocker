@@ -562,11 +562,12 @@ return render(request, "manage.html", ctx)
 :smile: BlueT, 守恩, 果子維, 王威, 逸于, 丁丁, 許家瑋
 
 ## future
-- 增加 停止/執行 特定 Container 的功能
+- ~~增加 停止/執行 特定 Container 的功能~~
 - Container 建立時的參數增加
 - 能夠定時清理使用不到的 Container
 - 可以更改 Container 名字
 - port 
+- python http client
 - ~~LSA不會被當~~
 
 ## Reference
