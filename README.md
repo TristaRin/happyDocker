@@ -567,7 +567,7 @@ return render(request, "manage.html", ctx)
 ## 工作分配
 
 - 小公主：Django 架設，manage.html 前端，Server 申請 
-- 姊姊：Docker 建立，views.py (後端)， reaction.html 前後端
+- 姊姊：Docker 建立，views.py (後端)， reaction.html 前後端，Dockerfile 與 docker compose 
 
 ## 特別感謝
 :smile: BlueT, 守恩, 果子維, 王威, 逸于, 丁丁, 許家瑋
