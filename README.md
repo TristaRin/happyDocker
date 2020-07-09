@@ -8,6 +8,7 @@
 * [About the Project](#project)
 * [Feature](#feature)
 * [Package Used](#package-used)
+* [Easy Start with docker-compose](#easy-start-with-docker-compose)
 * [Getting start with your own server](#getting-start-with-your-own-server)
 * [Prerequisites](#how-to-build-your-own-project)
   	* [Django](#django)
@@ -55,6 +56,16 @@
 3. django 3.0.3
 4. Docker
 5. curl
+## Easy Start with docker-compose
+`git clone https://github.com/TristaRin/happyDocker.git`
+
+`cd prinsis/`
+
+`docker-compose up --build`
+![](https://i.imgur.com/pPAQBf6.png)
+
+visit: http://127.0.0.1:8000/manageDocker/manage
+Then you can see the main page of our project
 
 ## Getting start with your own server
 1. Enter remote server
