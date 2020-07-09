@@ -1,0 +1,4 @@
+# ./happyDocker/prinsis/requirments.txt
+# Packages
+Django==3.0.3
+shellescape

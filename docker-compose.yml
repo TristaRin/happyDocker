@@ -1,0 +1,18 @@
+#./happyDocker/docker-compose.yml
+
+version: '3'
+
+services:
+  web:
+    build: ./prinsis
+         #context: ./prinsis
+         #restart: always
+         #dockerfile: Dockerfile
+    command: python3 manage.py runserver 0.0.0.0:8000
+    #command: ls
+    #volumes:
+    #- ./app/:/opt/prinsis/
+    ports:
+      - 8000:8000
+    env_file:
+      - ./env/django.env
