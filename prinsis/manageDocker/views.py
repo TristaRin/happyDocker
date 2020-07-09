@@ -2,6 +2,7 @@ from django.shortcuts import render
 from shellescape import quote
 import os
 import json
+import docker
 
 tmp_ctx = {}
 def hello_world(request):
