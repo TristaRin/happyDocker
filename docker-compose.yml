@@ -10,8 +10,8 @@ services:
          #dockerfile: Dockerfile
     command: python3 manage.py runserver 0.0.0.0:8000
     #command: ls
-    #volumes:
-    #- ./app/:/opt/prinsis/
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - 8000:8000
     env_file:
