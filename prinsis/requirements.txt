@@ -1,5 +1,5 @@
 # ./happyDocker/prinsis/requirments.txt
 # Packages
-Django==3.0.3
+Django==3.0.7
 shellescape
 docker
